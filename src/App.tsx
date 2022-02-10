@@ -141,8 +141,6 @@ function App() {
 			if (canBePlaced) {
 				array[x][y] = num;
 				i++;
-			} else if (isValid) {
-				console.log('OOPSIE');
 			}
 
 			seedIndex++;
