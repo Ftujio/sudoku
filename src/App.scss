@@ -1,0 +1,32 @@
+@import './variables.scss';
+
+.App {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+.board {
+	display: flex;
+	flex-direction: column;
+	$dimentions: 900px;
+	width: $dimentions;
+	height: $dimentions;
+	border: $stroke-big solid var(--border-color);
+	box-sizing: content-box;
+}
+
+.row {
+	display: flex;
+	width: 100%;
+	flex: 1;
+}
+
+.box {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

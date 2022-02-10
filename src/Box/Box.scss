@@ -1,0 +1,14 @@
+@import '/src/variables.scss';
+
+.box-small {
+	font-size: 2rem;
+	color: var(--border-color);
+
+	&:not(:last-child) {
+		border-right: .25rem solid var(--border-color);
+	}
+
+	&:hover {
+		background-color: var(--background-color-alt);
+	}
+}

@@ -1,0 +1,10 @@
+@import '/src/variables.scss';
+
+.box-big {
+	display: flex;
+	flex-direction: column;
+
+	&:not(:last-child) {
+		border-right: $stroke-big solid var(--border-color);
+	}
+}

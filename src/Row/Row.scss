@@ -1,0 +1,7 @@
+@import '/src/variables.scss';
+
+.big-row {
+	&:not(:last-child) {
+		border-bottom: $stroke-small solid var(--border-color);
+	}
+}

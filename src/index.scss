@@ -1,0 +1,38 @@
+@use './reset.scss';
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	height: 100vh;
+}
+
+body {
+	height: 100%;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	font-size: 16px;
+	box-sizing: border-box;
+	background-color: var(--background-color);
+}
+
+#root {
+	height: 100%;
+}
+
+:root {
+	@media (prefers-color-scheme: light) {
+		--border-color: #1e1e1e;
+		--background-color: #e6ecff;
+		--background-color-alt: #ccd8ff;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		--border-color: #e6ecff;
+		--background-color: #1e1e1e;
+		--background-color-alt: #333333;
+	}
+}
