@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './App.scss';
 import { BigBoxProps } from './BigBox/BigBox';
 
@@ -10,68 +10,30 @@ function App() {
 	const createBoxValues = (...values: number[]): BoxProps[] => values.map(value => ({ value }));
 	const createRowValues = (...rowValues: number[][]): RowProps[] => rowValues.map(boxValues => ({ boxValues: createBoxValues(...boxValues) }))
 	const createBigBoxValues = (...bigBoxValues: number[][][]): BigBoxProps[] => bigBoxValues.map(rowValues => ({ rowValues: createRowValues(...rowValues) }));
+	const createEmptyBigRowValue = (): BigRowProps => ({
+		bigBoxValues: createBigBoxValues(
+			[
+				[0, 0, 0],
+				[0, 0, 0],
+				[0, 0, 0],
+			],
+			[
+				[0, 0, 0],
+				[0, 0, 0],
+				[0, 0, 0],
+			],
+			[
+				[0, 0, 0],
+				[0, 0, 0],
+				[0, 0, 0],
+			],
+		),
+	});
 
-	const bigRowValue1: BigRowProps = {
-		bigBoxValues: createBigBoxValues(
-			[
-				[0, 0, 0],
-				[0, 0, 0],
-				[0, 0, 0],
-			],
-			[
-				[0, 0, 0],
-				[0, 0, 0],
-				[0, 0, 0],
-			],
-			[
-				[0, 0, 0],
-				[0, 0, 0],
-				[0, 0, 0],
-			],
-		)
-	};
-	const bigRowValue2: BigRowProps = {
-		bigBoxValues: createBigBoxValues(
-			[
-				[0, 0, 0],
-				[0, 0, 0],
-				[0, 0, 0],
-			],
-			[
-				[0, 0, 0],
-				[0, 0, 0],
-				[0, 0, 0],
-			],
-			[
-				[0, 0, 0],
-				[0, 0, 0],
-				[0, 0, 0],
-			],
-		)
-	};
-	const bigRowValue3: BigRowProps = {
-		bigBoxValues: createBigBoxValues(
-			[
-				[0, 0, 0],
-				[0, 0, 0],
-				[0, 0, 0],
-			],
-			[
-				[0, 0, 0],
-				[0, 0, 0],
-				[0, 0, 0],
-			],
-			[
-				[0, 0, 0],
-				[0, 0, 0],
-				[0, 0, 0],
-			],
-		)
-	};
 	const emptyBigRowValues: BigRowProps[] = [
-		bigRowValue1,
-		bigRowValue2,
-		bigRowValue3,
+		createEmptyBigRowValue(),
+		createEmptyBigRowValue(),
+		createEmptyBigRowValue(),
 	];
 
 	const [bigRowValues, setBigRowValues] = useState<BigRowProps[]>([]);

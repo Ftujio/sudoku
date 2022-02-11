@@ -4,7 +4,7 @@ import './Box.scss';
 
 export const Box = (props: BoxProps) => {
 
-	const [value, setValue] = useState<number>();
+	const [value, setValue] = useState<string>();
 	const [selectedNumber, setSelectedNumber] = useState<number>();
 
 	useKeyPress(key => {
@@ -13,21 +13,20 @@ export const Box = (props: BoxProps) => {
 
 	useEffect(() => {
 		if (props.value !== undefined) {
-			setValue(props.value);
+			const newValue = props.value === 0 ? '' : props.value.toString();
+			setValue(newValue);
 		}
 	}, [props.value]);
 
 	const addNumber = () => {
 		if (selectedNumber) {
-			setValue(selectedNumber);
+			setValue(selectedNumber.toString());
 		}
 	}
 
 	return (
 		<div className="box box-small" onClick={addNumber}>
-			{ value! !== 0 &&
-				value
-			}
+			{ value }
 		</div>
 	);
 };
