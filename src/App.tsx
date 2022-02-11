@@ -158,6 +158,12 @@ function App() {
 	};
 
 	const run = () => {
+		setBigRowValues([
+			createEmptyBigRowValue(),
+			createEmptyBigRowValue(),
+			createEmptyBigRowValue(),
+		]);
+
 		console.time('generating data took');
 		generateData(generatedData, 50);
 		console.timeEnd('generating data took');
