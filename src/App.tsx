@@ -84,7 +84,7 @@ function App() {
 		return Math.floor(Math.random() * (max - min) + min);
 	};
 
-	const generateSeed = (length: number): number[] => Array.from({ length }).map(n => getRandomInt(1, 10));
+	const generateSeed = (length: number): number[] => Array.from({ length }).map(n => getRandomInt(0, 10));
 
 	const generateData = (array: number[][], numOfGenerated: number, seedLength: number = 100) => {
 		const isValidNum = (n: number) => n >= 1 && n <= 9;
