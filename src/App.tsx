@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import './App.scss';
 import { BigBoxProps } from './BigBox/BigBox';
 
@@ -37,6 +37,7 @@ function App() {
 	];
 
 	const [bigRowValues, setBigRowValues] = useState<BigRowProps[]>([]);
+	const [nums, setNums] = useState(30);
 
 	const generatedData: number[][] = Array.from({ length: 9 }).map(() => Array.from({ length: 9}).map(() => 0));
 
@@ -165,12 +166,16 @@ function App() {
 		]);
 
 		console.time('generating data took');
-		generateData(generatedData, 50);
+		generateData(generatedData, nums);
 		console.timeEnd('generating data took');
 		console.log(generatedData);
 		mapToProps(generatedData);
 		setBigRowValues(emptyBigRowValues);
 	}
+
+	const handleNumInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setNums(+event.target.value);
+	};
 
 	useEffect(() => {
 		setBigRowValues(emptyBigRowValues);
@@ -180,6 +185,7 @@ function App() {
 		<div className="App">
 			<div className="buttons">
 				<button onClick={run}>GENERATE</button>
+				<input type="text" value={nums} onChange={handleNumInputChange} />
 			</div>
 
 			<div className="board-container">
