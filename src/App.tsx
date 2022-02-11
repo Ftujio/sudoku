@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { BigBoxProps } from './BigBox/BigBox';
 
@@ -74,6 +74,8 @@ function App() {
 		bigRowValue3,
 	];
 
+	const [bigRowValues, setBigRowValues] = useState<BigRowProps[]>([]);
+
 	const generatedData: number[][] = Array.from({ length: 9 }).map(() => Array.from({ length: 9}).map(() => 0));
 
 	const getRandomInt = (min: number, max: number) => {
@@ -84,13 +86,13 @@ function App() {
 
 	const generateSeed = (length: number): number[] => Array.from({ length }).map(n => getRandomInt(1, 10));
 
-	const generateData = (array: number[][], numOfGenerated: number, seedLength: number = 30) => {
+	const generateData = (array: number[][], numOfGenerated: number, seedLength: number = 100) => {
 		const isValidNum = (n: number) => n >= 1 && n <= 9;
 		const isValidCoordinate = (n: number) => n >= 0 && n <= 8;
 		const getArrayColumn = (i: number) => array.map(x => x[i]);
 		const rowDoesNotHaveNumber = (num: number, rowIndex: number) => !array[rowIndex].includes(num);
 		const colDoesNotHaveNumber = (num: number, colIndex: number) => !getArrayColumn(colIndex).includes(num);
-		const getCellAsArray = (x: number, y: number): number[] => {
+		const getCellAsArray = (rowIndex: number, colIndex: number): number[] => {
 			const getBounds = (n: number): [number, number] => {
 				let n1!: number;
 				let n2!: number;
@@ -107,17 +109,17 @@ function App() {
 				return [n1, n2];
 			};
 			
-			const cell: number[] = [];
-			const [x1, x2] = getBounds(x);
-			const [y1, y2] = getBounds(y);
+			let cell: number[] = [];
+			const [rowIndex1, rowIndex2] = getBounds(rowIndex);
+			const [colIndex1, colIndex2] = getBounds(colIndex);
 
-			for (let y = y1; y < y2; y++) {
-				cell.concat(...array[y].slice(x1, x2 + 1));
+			for (let i = rowIndex1; i <= rowIndex2; i++) {
+				cell.push(...array[i].slice(colIndex1, colIndex2 + 1));
 			}
 
 			return cell;
 		};
-		const cellDoesNotHaveNumber = (num: number, x: number, y: number) => !getCellAsArray(x, y).includes(num);
+		const cellDoesNotHaveNumber = (num: number, rowIndex: number, colIndex: number) => !getCellAsArray(rowIndex, colIndex).includes(num);
 		
 		let seed = generateSeed(seedLength);
 		console.log('Generated seed:', seed.join(''));
@@ -132,18 +134,19 @@ function App() {
 				console.log('Getting new seed:', seed.join(''));
 			}
 			
-			const x: number = +seed[seedIndex];
-			const y: number = +seed[seedIndex + 1];
-			const num: number = +seed[seedIndex + 2];
-			const isValid = isValidCoordinate(x) && isValidCoordinate(y) && isValidNum(num);
-			const canBePlaced = isValid && rowDoesNotHaveNumber(num, x) && colDoesNotHaveNumber(num, y) && cellDoesNotHaveNumber;
+			const rowIndex: number = seed[seedIndex];
+			const colIndex: number = seed[seedIndex + 1];
+			const num: number = seed[seedIndex + 2];
+			const isValid = isValidCoordinate(rowIndex) && isValidCoordinate(colIndex) && isValidNum(num);
+			const isEmpty = isValid && array[rowIndex][colIndex] === 0;
+			const canBePlaced = isEmpty && rowDoesNotHaveNumber(num, rowIndex) && colDoesNotHaveNumber(num, colIndex) && cellDoesNotHaveNumber(num, rowIndex, colIndex);
 
 			if (canBePlaced) {
-				array[x][y] = num;
+				array[rowIndex][colIndex] = num;
 				i++;
 			}
 
-			seedIndex++;
+			seedIndex += 3;
 			totalIterations++;
 		}
 
@@ -192,15 +195,35 @@ function App() {
 		}
 	};
 
-	generateData(generatedData, 20);
-	mapToProps(generatedData);
+	const run = () => {
+		console.time('generating data took');
+		generateData(generatedData, 50);
+		console.timeEnd('generating data took');
+		console.log(generatedData);
+		mapToProps(generatedData);
+		setBigRowValues(emptyBigRowValues);
+	}
+
+	useEffect(() => {
+		setBigRowValues(emptyBigRowValues);
+	}, []);
 
 	return (
 		<div className="App">
-			<div className="board">
-				<BigRow bigBoxValues={emptyBigRowValues[0].bigBoxValues} />
-				<BigRow bigBoxValues={emptyBigRowValues[1].bigBoxValues} />
-				<BigRow bigBoxValues={emptyBigRowValues[2].bigBoxValues} />
+			<div className="buttons">
+				<button onClick={run}>GENERATE</button>
+			</div>
+
+			<div className="board-container">
+				<div className="board">
+					{ bigRowValues.length &&
+						<>
+							<BigRow bigBoxValues={bigRowValues[0].bigBoxValues} />
+							<BigRow bigBoxValues={bigRowValues[1].bigBoxValues} />
+							<BigRow bigBoxValues={bigRowValues[2].bigBoxValues} />
+						</>
+					}
+				</div>
 			</div>
 		</div>
 	);

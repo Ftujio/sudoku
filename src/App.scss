@@ -1,21 +1,46 @@
 @import './variables.scss';
 
 .App {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 400px 1fr 400px;
 	height: 100%;
 }
 
-.board {
+.board-container {
+	grid-column-start: 2;
+	grid-column-end: 3;
 	display: flex;
-	flex-direction: column;
-	$dimentions: 900px;
-	width: $dimentions;
-	height: $dimentions;
-	border: $stroke-big solid var(--border-color);
-	box-sizing: content-box;
+	align-items: center;
+	justify-content: center;
+
+	.board {
+		display: flex;
+		flex-direction: column;
+		$dimentions: 900px;
+		width: $dimentions;
+		height: $dimentions;
+		border: $stroke-big solid var(--border-color);
+		box-sizing: content-box;
+	}
+}
+
+.buttons {
+	grid-column-start: 1;
+	grid-column-end: 2;
+	display: flex;
+	align-items: flex-start;
+	padding: 30px;
+
+	button {
+		// width: 100px;
+		// height: inherit;
+		padding: 1em 2em;
+		background-color: var(--border-color);
+		border: none;
+		font-weight: bold;
+		cursor: pointer;
+	}
 }
 
 .row {
