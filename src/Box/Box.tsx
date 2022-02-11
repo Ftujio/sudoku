@@ -16,7 +16,7 @@ export const Box = (props: BoxProps) => {
 			const newValue = props.value === 0 ? '' : props.value.toString();
 			setValue(newValue);
 		}
-	}, [props.value]);
+	}, [props]);
 
 	const addNumber = () => {
 		if (selectedNumber) {
